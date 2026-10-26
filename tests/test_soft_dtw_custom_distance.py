@@ -4,7 +4,6 @@ import numpy as np
 import pytest
 
 from tslearn.metrics import SoftDTWLossPyTorch, compute_mask
-from tslearn.metrics.soft_dtw_loss_pytorch import _SoftDTWLossPyTorch
 
 torch = pytest.importorskip("torch")
 
@@ -96,6 +95,8 @@ def test_soft_dtw_cdist_backward_matches_autograd(
 
 def test_soft_dtw_keeps_shared_distance_matrix_unchanged():
     """Path masking preserves costs reused by another objective."""
+    from tslearn.metrics.soft_dtw_loss_pytorch import _SoftDTWLossPyTorch
+
     x = torch.tensor([[[0.0], [1.0], [2.0], [3.0]]], requires_grad=True)
     y = torch.tensor([[[0.5], [1.5], [2.5], [3.5]]], requires_grad=True)
     distance = torch.cdist(x, y)
