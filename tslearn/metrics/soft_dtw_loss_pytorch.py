@@ -87,10 +87,11 @@ else:
             dtype = D.dtype
             _, m, n = D.shape
             mask = _njit_compute_mask(m, n, global_constraint, sakoe_chiba_radius, itakura_max_slope)
-            # Custom distances may save their output for backward.
-            D = D.masked_fill(
-                torch.as_tensor(~mask, device=dev), torch.inf
-            )
+            if not np.all(mask):
+                # Custom distances may save their output for backward.
+                D = D.masked_fill(
+                    torch.as_tensor(~mask, device=dev), torch.inf
+                )
             D_ = D.detach().cpu().numpy()
             R_ = _njit_soft_dtw_batch(D_, gamma, mask)
             gamma_tensor = torch.Tensor([gamma]).to(dev).type(dtype)
