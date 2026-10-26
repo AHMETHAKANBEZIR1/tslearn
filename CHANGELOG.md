@@ -11,6 +11,10 @@ Changelogs for this project are recorded in this file since v0.2.0.
 
 ## [Towards v0.11.0]
 
+### Fixed
+
+* Preserve float64 precision of costs and gradients in `SoftDTWLossPyTorch`.
+
 ### Removed
 
 * Support for sklearn version 1.5 is dropped
