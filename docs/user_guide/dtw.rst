@@ -225,6 +225,24 @@ smoothing of the resulting metric (squared DTW corresponds to the limit case
     soft_dtw_score = soft_dtw(x, y, gamma=.1)
 
 
+For PyTorch training, :class:`tslearn.metrics.SoftDTWLossPyTorch` also accepts a
+custom differentiable ``dist_func`` returning pairwise costs with shape
+``(batch_size, length_x, length_y)``. For example, ``torch.cdist`` uses Euclidean
+rather than squared Euclidean costs. The loss preserves the returned cost
+matrix, including when applying global path constraints, so its autograd state
+and other uses of that matrix remain valid:
+
+.. code-block:: python
+
+    import torch
+    from tslearn.metrics import SoftDTWLossPyTorch
+
+    x = torch.randn(2, 4, 3, requires_grad=True)
+    y = torch.randn(2, 5, 3, requires_grad=True)
+    criterion = SoftDTWLossPyTorch(dist_func=torch.cdist)
+    criterion(x, y).mean().backward()
+
+
 When a strictly positive value is set for :math:`\gamma`, the corresponding
 alignment matrix corresponds to a blurred version of the DTW one:
 

@@ -11,6 +11,11 @@ Changelogs for this project are recorded in this file since v0.2.0.
 
 ## [Towards v0.11.0]
 
+### Fixed
+
+* Preserve autograd for custom distances in `SoftDTWLossPyTorch` by avoiding
+  in-place edits of their pairwise distance matrices.
+
 ### Removed
 
 * Support for sklearn version 1.5 is dropped
